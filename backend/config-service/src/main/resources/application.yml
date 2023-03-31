@@ -1,0 +1,12 @@
+
+server:
+    port: 8081
+
+spring:
+    cloud:
+        server:
+            git:
+                uri: https://github.com/victorgomez09/workcode.git
+                search-paths: backend/config-data
+    application:
+        name: config-service

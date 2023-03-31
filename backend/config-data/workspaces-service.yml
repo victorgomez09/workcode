@@ -1,0 +1,17 @@
+server:
+  port: 8002
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/workcode_workspaces
+    username: postgres
+    password: postgres
+
+  jpa:
+    hibernate:
+      ddl: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect

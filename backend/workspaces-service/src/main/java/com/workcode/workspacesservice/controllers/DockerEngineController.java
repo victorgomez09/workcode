@@ -20,6 +20,6 @@ public class DockerEngineController {
 
     @GetMapping
     public ResponseEntity<List<Container>> index() {
-        return ResponseEntity.ok(dockerService.getAllContainers());
+        return ResponseEntity.ok(dockerService.findAllContainers());
     }
 }
