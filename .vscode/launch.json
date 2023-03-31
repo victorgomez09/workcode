@@ -28,6 +28,17 @@
             "mainClass": "com.workcode.configservice.ConfigServiceApplication",
             "projectName": "config-service",
             "args": "",
+            "envFile": "${workspaceFolder}/.env",
+            "vmArgs": " -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=45519 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dspring.jmx.enabled=true -Djava.rmi.server.hostname=localhost -Dspring.application.admin.enabled=true -Dspring.boot.project.name=config-service"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-EurekaServiceApplication<eureka-service>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.workcode.eurekaservice.EurekaServiceApplication",
+            "projectName": "eureka-service",
+            "args": "",
             "envFile": "${workspaceFolder}/.env"
         }
     ]
