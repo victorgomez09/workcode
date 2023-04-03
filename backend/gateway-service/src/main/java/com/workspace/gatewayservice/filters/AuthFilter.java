@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.server.ServerWebExchange;
 
+import com.workspace.gatewayservice.dtos.RequestDto;
 import com.workspace.gatewayservice.dtos.TokenDto;
 
 import reactor.core.publisher.Mono;
@@ -27,7 +28,7 @@ public class AuthFilter extends AbstractGatewayFilterFactory<AuthFilter.Config> 
     @Override
     public GatewayFilter apply(Config config) {
         return (((exchange, chain) -> {
-            if (exchange.getResponse().getHeaders().containsKey(HttpHeaders.AUTHORIZATION))
+            if (!exchange.getResponse().getHeaders().containsKey(HttpHeaders.AUTHORIZATION))
                 return onError(exchange, HttpStatus.BAD_REQUEST);
 
             String token = exchange.getRequest().getHeaders().get(HttpHeaders.AUTHORIZATION).get(0);
@@ -35,7 +36,9 @@ public class AuthFilter extends AbstractGatewayFilterFactory<AuthFilter.Config> 
             if (chunks.length != 2 || !chunks[0].equals("Bearer"))
                 return onError(exchange, HttpStatus.BAD_REQUEST);
 
-            return webClient.build().post().uri("http://auth-service/auth/validate?token=" + chunks[1]).retrieve().bodyToMono(TokenDto.class).map(t -> {
+            return webClient.build().post().uri("http://auth-service/auth/validate?token=" + chunks[1])
+            .bodyValue(RequestDto.builder().uri(exchange.getRequest().getPath().toString()).method(exchange.getRequest().getMethod().toString()))
+            .retrieve().bodyToMono(TokenDto.class).map(t -> {
                 t.getToken();
 
                 return exchange;

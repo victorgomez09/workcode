@@ -9,3 +9,9 @@ spring:
     
 jwt:
     secret: workcode_secret
+
+admin-paths:
+    paths:
+        -
+            uri: "/users"
+            method: "POST"

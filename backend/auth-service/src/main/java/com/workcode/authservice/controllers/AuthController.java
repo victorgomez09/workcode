@@ -5,10 +5,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.workcode.authservice.dtos.CreateUserDto;
 import com.workcode.authservice.dtos.LoginDto;
+import com.workcode.authservice.dtos.RequestDto;
 import com.workcode.authservice.dtos.TokenDto;
 import com.workcode.authservice.services.UserService;
 
@@ -35,5 +37,14 @@ public class AuthController {
             return ResponseEntity.badRequest().build();
 
         return ResponseEntity.ok(token);
+    }
+
+    @PostMapping("/validate")
+    public ResponseEntity<TokenDto> validate(@RequestParam("token") String token, @RequestBody RequestDto data) {
+        TokenDto result = userService.validate(token, data);
+        if (result == null)
+            return ResponseEntity.badRequest().build();
+
+        return ResponseEntity.ok(result);
     }
 }
