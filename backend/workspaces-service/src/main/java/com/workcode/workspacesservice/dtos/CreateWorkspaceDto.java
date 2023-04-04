@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CreateWorkspaceDto {
+    private String user;
     private String name;
     private EWorkspaceImage image;
 }

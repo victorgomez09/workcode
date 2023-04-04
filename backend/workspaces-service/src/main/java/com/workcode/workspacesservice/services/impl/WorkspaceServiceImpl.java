@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.workcode.workspacesservice.dtos.CreateWorkspaceDto;
 import com.workcode.workspacesservice.dtos.UserDto;
-import com.workcode.workspacesservice.feign.AuthClient;
+import com.workcode.workspacesservice.feign.UserClient;
 import com.workcode.workspacesservice.models.Workspace;
 import com.workcode.workspacesservice.repositories.WorkspaceRepository;
 import com.workcode.workspacesservice.services.WorkspaceService;
@@ -19,7 +19,7 @@ public class WorkspaceServiceImpl implements WorkspaceService {
     private WorkspaceRepository workspaceRepository;
 
     @Autowired
-    private AuthClient authClient;
+    private UserClient userClient;
 
     @Override
     public List<Workspace> findAllbyUserId(Integer userId) {
@@ -38,7 +38,7 @@ public class WorkspaceServiceImpl implements WorkspaceService {
 
     @Override
     public Workspace save(CreateWorkspaceDto data) {
-        UserDto user = authClient.me();
+        UserDto user = userClient.me(data.getUser());
         System.out.println("user: " + user.getEmail());
         return null;
 
