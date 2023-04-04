@@ -9,5 +9,7 @@ spring:
                 git:
                     uri: https://github.com/victorgomez09/workcode
                     search-paths: backend/config-data
+                    default-label: main
+            # profile: main
     application:
         name: config-service

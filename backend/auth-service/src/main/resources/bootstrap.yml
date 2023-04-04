@@ -6,6 +6,7 @@ spring:
         config:
             enabled: true
             uri: http://localhost:8081
+            name: auth-service
     
 jwt:
     secret: workcode_secret
