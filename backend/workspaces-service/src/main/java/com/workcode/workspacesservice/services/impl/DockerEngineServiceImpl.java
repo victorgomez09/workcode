@@ -15,7 +15,7 @@ import com.github.dockerjava.api.model.Container;
 import com.github.dockerjava.api.model.HostConfig;
 import com.github.dockerjava.api.model.PortBinding;
 import com.github.dockerjava.api.model.Volume;
-import com.workcode.workspacesservice.dtos.CreateContainerDto;
+import com.workcode.workspacesservice.dtos.CreateWorkspaceDto;
 import com.workcode.workspacesservice.services.DockerEngineService;
 
 @Service
@@ -41,7 +41,7 @@ public class DockerEngineServiceImpl implements DockerEngineService {
     }
 
     @Override
-    public InspectContainerCmd buildContainer(CreateContainerDto containerData) {
+    public InspectContainerCmd buildContainer(CreateWorkspaceDto containerData) {
         HostConfig hostConfig = HostConfig.newHostConfig().withPortBindings(PortBinding.parse("1209:8443"));
         CreateContainerResponse containerResponse = dockerClient
             .createContainerCmd("vscode-test")

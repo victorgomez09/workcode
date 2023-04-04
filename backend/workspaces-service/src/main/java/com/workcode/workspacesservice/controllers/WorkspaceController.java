@@ -11,13 +11,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.workcode.workspacesservice.dtos.CreateWorkspaceDto;
 import com.workcode.workspacesservice.models.Workspace;
 import com.workcode.workspacesservice.services.WorkspaceService;
 
 @RestController
 @RequestMapping("/workspaces")
 public class WorkspaceController {
-    
+
     @Autowired
     private WorkspaceService workspaceService;
 
@@ -52,7 +53,7 @@ public class WorkspaceController {
     }
 
     @PostMapping
-    public ResponseEntity<Workspace> save(@RequestBody Workspace workspaceData) {
+    public ResponseEntity<Workspace> save(@RequestBody CreateWorkspaceDto workspaceData) {
         return ResponseEntity.ok(workspaceService.save(workspaceData));
     }
 

@@ -1,4 +1,4 @@
-package com.workcode.authservice.dtos;
+package com.workcode.usersservice.dtos;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -7,10 +7,10 @@ import lombok.NoArgsConstructor;
 
 @Data
 @Builder
-@NoArgsConstructor
 @AllArgsConstructor
-public class RequestDto {
+@NoArgsConstructor
+public class CreateUserDto {
 
-    private String uri;
-    private String method;
+    private String email;
+    private String name;
 }

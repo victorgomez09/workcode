@@ -2,10 +2,15 @@ package com.workcode.usersservice.services;
 
 import java.util.List;
 
-import com.workcode.usersservice.models.User;
+import com.workcode.usersservice.dtos.CreateUserDto;
+import com.workcode.usersservice.dtos.UserDto;
 
 public interface UserService {
-    List<User> findAll();
-    User findById(int id);
-    User save(User user);
+    List<UserDto> findAll();
+
+    UserDto findById(int id);
+
+    UserDto findByEmail(String email);
+
+    UserDto save(CreateUserDto user);
 }

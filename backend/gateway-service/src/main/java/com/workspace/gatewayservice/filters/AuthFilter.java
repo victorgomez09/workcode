@@ -1,5 +1,7 @@
 package com.workspace.gatewayservice.filters;
 
+import java.util.List;
+
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
 import org.springframework.http.HttpHeaders;
@@ -9,14 +11,13 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.server.ServerWebExchange;
 
-import com.workspace.gatewayservice.dtos.RequestDto;
 import com.workspace.gatewayservice.dtos.TokenDto;
 
 import reactor.core.publisher.Mono;
 
 @Component
 public class AuthFilter extends AbstractGatewayFilterFactory<AuthFilter.Config> {
-    
+
     private WebClient.Builder webClient;
 
     public AuthFilter(WebClient.Builder webClient) {
@@ -28,21 +29,22 @@ public class AuthFilter extends AbstractGatewayFilterFactory<AuthFilter.Config> 
     @Override
     public GatewayFilter apply(Config config) {
         return (((exchange, chain) -> {
-            if (!exchange.getResponse().getHeaders().containsKey(HttpHeaders.AUTHORIZATION))
-                return onError(exchange, HttpStatus.BAD_REQUEST);
+            List<String> authHeaders = exchange.getRequest().getHeaders().get(HttpHeaders.AUTHORIZATION);
+            if (authHeaders == null || authHeaders.isEmpty())
+                return onError(exchange, HttpStatus.UNAUTHORIZED);
 
-            String token = exchange.getRequest().getHeaders().get(HttpHeaders.AUTHORIZATION).get(0);
-            String [] chunks = token.split(" ");
+            String token = authHeaders.stream().findFirst()
+                    .orElse(null);
+            String[] chunks = token.split(" ");
             if (chunks.length != 2 || !chunks[0].equals("Bearer"))
-                return onError(exchange, HttpStatus.BAD_REQUEST);
+                return onError(exchange, HttpStatus.UNAUTHORIZED);
 
             return webClient.build().post().uri("http://auth-service/auth/validate?token=" + chunks[1])
-            .bodyValue(RequestDto.builder().uri(exchange.getRequest().getPath().toString()).method(exchange.getRequest().getMethod().toString()))
-            .retrieve().bodyToMono(TokenDto.class).map(t -> {
-                t.getToken();
+                    .retrieve().bodyToMono(TokenDto.class).map(t -> {
+                        t.getToken();
 
-                return exchange;
-            }).flatMap(chain::filter);
+                        return exchange;
+                    }).flatMap(chain::filter);
         }));
     }
 
@@ -52,6 +54,7 @@ public class AuthFilter extends AbstractGatewayFilterFactory<AuthFilter.Config> 
 
         return response.setComplete();
     }
-    
-    public static class Config {}
+
+    public static class Config {
+    }
 }

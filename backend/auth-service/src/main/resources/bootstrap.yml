@@ -9,10 +9,4 @@ spring:
             name: auth-service
     
 jwt:
-    secret: workcode_secret
-
-admin-paths:
-    paths:
-        -
-            uri: "/users"
-            method: "POST"
+    secret: workcode_auth_service_secret_jwt_key
