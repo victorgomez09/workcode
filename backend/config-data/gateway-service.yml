@@ -25,6 +25,8 @@ spring:
           uri: lb://users-service
           predicates:
             - Path=/users/**
+          filters:
+            - AuthFilter
          - id: workspaces-service
           uri: lb://workspaces-service
           predicates:
