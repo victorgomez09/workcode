@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.workcode.authservice.dtos.CreateUserDto;
 import com.workcode.authservice.dtos.LoginDto;
+import com.workcode.authservice.dtos.RequestDto;
 import com.workcode.authservice.dtos.TokenDto;
 import com.workcode.authservice.models.User;
 import com.workcode.authservice.repositories.UserRepository;
@@ -51,8 +52,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public TokenDto validate(String token) {
-        if (!jwtProvider.validateToken(token))
+    public TokenDto validate(String token, RequestDto requestData) {
+        if (!jwtProvider.validateToken(token, requestData))
             return null;
 
         String email = jwtProvider.getEmailFromToken(token);
