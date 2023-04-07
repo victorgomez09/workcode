@@ -35,7 +35,7 @@ public class JwtProvider {
         claims = Jwts.claims().setSubject(user.getEmail());
         claims.put("id", user.getId());
         Date now = new Date();
-        Date exp = new Date(now.getTime() + 36000);
+        Date exp = new Date(now.getTime() + 86400000);
         SecretKey key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtSecret));
 
         return Jwts.builder().setClaims(claims).setIssuedAt(now).setExpiration(exp)

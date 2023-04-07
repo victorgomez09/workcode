@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import com.workcode.authservice.dtos.CreateUserDto;
 import com.workcode.authservice.dtos.LoginDto;
 import com.workcode.authservice.dtos.TokenDto;
-import com.workcode.authservice.dtos.UserDto;
 import com.workcode.authservice.feign.UserClient;
 import com.workcode.authservice.models.User;
 import com.workcode.authservice.repositories.AuthRepository;
@@ -69,16 +68,6 @@ public class AuthServiceImpl implements AuthService {
             return null;
 
         return TokenDto.builder().token(token).build();
-    }
-
-    @Override
-    public UserDto me(String token) {
-        System.out.println("token:" + token);
-        String email = jwtProvider.getEmailFromToken(token);
-        if (email == null)
-            return null;
-
-        return userClient.me(token);
     }
 
 }
