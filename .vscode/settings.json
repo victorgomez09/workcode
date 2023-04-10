@@ -22,6 +22,16 @@
       "database": "workcode_users",
       "username": "postgres",
       "password": "postgres"
+    },
+    {
+      "previewLimit": 50,
+      "server": "localhost",
+      "port": 5432,
+      "driver": "PostgreSQL",
+      "name": "workcode_workspaces",
+      "database": "workcode_workspaces",
+      "username": "postgres",
+      "password": "postgres"
     }
   ]
 }

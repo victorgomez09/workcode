@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.workcode.workspacesservice.dtos.CreateWorkspaceDto;
+import com.workcode.workspacesservice.dtos.WorkspaceDto;
 import com.workcode.workspacesservice.models.Workspace;
 import com.workcode.workspacesservice.services.WorkspaceService;
 
@@ -23,8 +24,8 @@ public class WorkspaceController {
     private WorkspaceService workspaceService;
 
     @GetMapping("/user/{userId}")
-    public ResponseEntity<List<Workspace>> findAllbyUserId(@PathVariable("userId") Integer userId) {
-        List<Workspace> result = workspaceService.findAllbyUserId(userId);
+    public ResponseEntity<List<WorkspaceDto>> findAllbyUserId(@PathVariable("userId") Integer userId) {
+        List<WorkspaceDto> result = workspaceService.findAllbyUserId(userId);
         if (result.isEmpty()) {
             return ResponseEntity.noContent().build();
         }

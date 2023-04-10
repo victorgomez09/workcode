@@ -1,19 +1,23 @@
 package com.workcode.workspacesservice.services.impl;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.github.dockerjava.api.command.InspectContainerCmd;
+import com.github.dockerjava.api.model.Container;
 import com.workcode.workspacesservice.dtos.CreateWorkspaceDto;
 import com.workcode.workspacesservice.dtos.UserDto;
+import com.workcode.workspacesservice.dtos.WorkspaceDto;
 import com.workcode.workspacesservice.feign.UsersClient;
+import com.workcode.workspacesservice.models.Port;
 import com.workcode.workspacesservice.models.Workspace;
 import com.workcode.workspacesservice.repositories.WorkspaceRepository;
 import com.workcode.workspacesservice.services.DockerEngineService;
 import com.workcode.workspacesservice.services.WorkspaceService;
-import com.workcode.workspacesservice.utils.DockerUtil;
 
 @Service
 public class WorkspaceServiceImpl implements WorkspaceService {
@@ -27,12 +31,19 @@ public class WorkspaceServiceImpl implements WorkspaceService {
     @Autowired
     private DockerEngineService dockerEngineService;
 
-    @Autowired
-    private DockerUtil dockerUtil;
-
     @Override
-    public List<Workspace> findAllbyUserId(Integer userId) {
-        return workspaceRepository.findByUserId(userId);
+    public List<WorkspaceDto> findAllbyUserId(Integer userId) {
+        List<WorkspaceDto> result = new ArrayList<>();
+        List<Workspace> workspaces = workspaceRepository.findByUserId(userId);
+        workspaces.stream().forEach(w -> {
+            Container c = dockerEngineService.findContainerByName(w.getName());
+            result.add(WorkspaceDto.builder().id(w.getId()).name(w.getName()).image(w.getImage())
+                    .ip(c.getNetworkSettings().getNetworks().get("bridge").getIpAddress())
+                    .port(Arrays.asList(c.getPorts()).get(0).getPublicPort())
+                    .build());
+        });
+
+        return result;
     }
 
     @Override
@@ -50,14 +61,18 @@ public class WorkspaceServiceImpl implements WorkspaceService {
         UserDto user = usersClient.findByEmail(data.getUser());
 
         InspectContainerCmd container = dockerEngineService.buildContainer(data);
-        List<String> logs = dockerUtil.getDockerLogs(container.getContainerId());
-        for (String string : logs) {
-            System.out.println("log: " + string);
-        }
-        // System.out.println("test1: " + container.exec().toString());
-        System.out.println("test: " + container.exec().getNetworkSettings().toString());
+        List<Port> ports = new ArrayList<>();
+        container.exec().getNetworkSettings().getPorts().getBindings().forEach((key, value) -> {
+            ports.add(Port.builder().targetPort(key.getPort())
+                    .exposedPort(Integer.valueOf(Arrays.asList(value).get(0).getHostPortSpec()))
+                    .build());
+        });
 
-        return null;
+        Workspace workspace = Workspace.builder().name(data.getName()).image(data.getImage().name())
+                .userId(user.getId()).ports(ports)
+                .build();
+
+        return workspaceRepository.save(workspace);
     }
 
 }

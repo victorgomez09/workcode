@@ -9,9 +9,11 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserDto {
+public class WorkspaceDto {
 
     private int id;
     private String name;
-    private String email;
+    private String image;
+    private String ip;
+    private int port;
 }
