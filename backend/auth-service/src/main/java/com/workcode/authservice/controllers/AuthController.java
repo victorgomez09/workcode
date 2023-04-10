@@ -3,10 +3,8 @@ package com.workcode.authservice.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,7 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.workcode.authservice.dtos.CreateUserDto;
 import com.workcode.authservice.dtos.LoginDto;
 import com.workcode.authservice.dtos.TokenDto;
-import com.workcode.authservice.dtos.UserDto;
 import com.workcode.authservice.services.AuthService;
 
 @RestController
@@ -51,12 +48,4 @@ public class AuthController {
         return ResponseEntity.ok(result);
     }
 
-    @GetMapping("/me")
-    public ResponseEntity<UserDto> me(@RequestHeader(name = "Authorization") String token) {
-        UserDto result = authService.me(token);
-        if (result == null)
-            return ResponseEntity.noContent().build();
-
-        return ResponseEntity.ok(result);
-    }
 }

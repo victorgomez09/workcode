@@ -20,10 +20,10 @@ import com.workcode.workspacesservice.services.DockerEngineService;
 
 @Service
 public class DockerEngineServiceImpl implements DockerEngineService {
-    
+
     @Autowired
     private DockerClient dockerClient;
-    
+
     @Override
     public List<Container> findAllContainers() {
         return dockerClient.listContainersCmd().exec();
@@ -36,23 +36,22 @@ public class DockerEngineServiceImpl implements DockerEngineService {
 
     @Override
     public InspectContainerCmd findContainerById(String containerId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findContainerById'");
+        return dockerClient.inspectContainerCmd(containerId);
     }
 
     @Override
     public InspectContainerCmd buildContainer(CreateWorkspaceDto containerData) {
         HostConfig hostConfig = HostConfig.newHostConfig().withPortBindings(PortBinding.parse("1209:8443"));
         CreateContainerResponse containerResponse = dockerClient
-            .createContainerCmd("vscode-test")
-            .withName("vscode-test-container")
-            .withHostConfig(hostConfig)
-            .withEnv(Arrays.asList("PUID=1000", "PGID=1000", "TZ=Etc/UTC", "PASSWORD=test"))
-            .withVolumes(new Volume("/path/to/appdata/config:/config"))
-        .exec();
+                .createContainerCmd("vscode-test")
+                .withName("vscode-test-container")
+                .withHostConfig(hostConfig)
+                .withEnv(Arrays.asList("PUID=1000", "PGID=1000", "TZ=Etc/UTC", "PASSWORD=test"))
+                .withVolumes(new Volume("/path/to/appdata/config:/config"))
+                .exec();
 
         dockerClient.startContainerCmd(containerResponse.getId()).exec();
         return dockerClient.inspectContainerCmd(containerResponse.getId());
     }
-    
+
 }

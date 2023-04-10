@@ -5,12 +5,15 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.github.dockerjava.api.command.InspectContainerCmd;
 import com.workcode.workspacesservice.dtos.CreateWorkspaceDto;
 import com.workcode.workspacesservice.dtos.UserDto;
 import com.workcode.workspacesservice.feign.UsersClient;
 import com.workcode.workspacesservice.models.Workspace;
 import com.workcode.workspacesservice.repositories.WorkspaceRepository;
+import com.workcode.workspacesservice.services.DockerEngineService;
 import com.workcode.workspacesservice.services.WorkspaceService;
+import com.workcode.workspacesservice.utils.DockerUtil;
 
 @Service
 public class WorkspaceServiceImpl implements WorkspaceService {
@@ -20,6 +23,12 @@ public class WorkspaceServiceImpl implements WorkspaceService {
 
     @Autowired
     private UsersClient usersClient;
+
+    @Autowired
+    private DockerEngineService dockerEngineService;
+
+    @Autowired
+    private DockerUtil dockerUtil;
 
     @Override
     public List<Workspace> findAllbyUserId(Integer userId) {
@@ -39,7 +48,15 @@ public class WorkspaceServiceImpl implements WorkspaceService {
     @Override
     public Workspace save(CreateWorkspaceDto data) {
         UserDto user = usersClient.findByEmail(data.getUser());
-        System.out.println("user: " + user.toString());
+
+        InspectContainerCmd container = dockerEngineService.buildContainer(data);
+        List<String> logs = dockerUtil.getDockerLogs(container.getContainerId());
+        for (String string : logs) {
+            System.out.println("log: " + string);
+        }
+        // System.out.println("test1: " + container.exec().toString());
+        System.out.println("test: " + container.exec().getNetworkSettings().toString());
+
         return null;
     }
 

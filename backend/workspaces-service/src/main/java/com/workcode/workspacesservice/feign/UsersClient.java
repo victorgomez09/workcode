@@ -9,6 +9,6 @@ import com.workcode.workspacesservice.dtos.UserDto;
 @FeignClient(name = "users-service")
 public interface UsersClient {
 
-    @GetMapping("/email/{userEmail}")
+    @GetMapping("/users/email/{userEmail}")
     public UserDto findByEmail(@PathVariable("userEmail") String userEmail);
 }
