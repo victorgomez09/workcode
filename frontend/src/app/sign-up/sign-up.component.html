@@ -1,0 +1,76 @@
+<div class="flex flex-col items-center justify-center w-full">
+    <div class="flex flex-col border px-4 py-8 bg-white rounded-lg shadow dark:bg-gray-800 sm:px-6 md:px-8 lg:px-10">
+        <div class="self-center mb-2 text-xl font-light text-gray-800 sm:text-2xl dark:text-white">
+            Create a new account
+        </div>
+        <span class="justify-center text-sm text-center text-gray-500 flex-items-center dark:text-gray-400">
+            Already have an account ?
+            <a routerLink="/sign-in" class="text-sm text-blue-500 underline hover:text-blue-700">
+                Sign in
+            </a>
+        </span>
+        <div class="p-6 mt-8">
+            <form [formGroup]="formGroup" (ngSubmit)="submit()">
+                <div class="flex flex-col mb-2">
+                    <div class=" relative ">
+                        <input type="text" id="sign-up-name"
+                            class="rounded-lg flex-1 appearance-none border shadow-sm text-base w-full py-2 px-4 border-gray-300 bg-white text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+                            [ngClass]="{'border-red-500': f('name')?.errors && f('name')?.touched}"
+                            placeholder="Your name" formControlName="name" />
+                    </div>
+
+                    <div *ngIf="f('name')?.hasError('required') && f('name')?.touched">
+                        <span class="text-red-500 italic font-light text-sm">Name is required</span>
+                    </div>
+                </div>
+                <div class="flex flex-col mb-2">
+                    <div class=" relative ">
+                        <input type="text" id="sign-up-email"
+                            class="rounded-lg flex-1 appearance-none border shadow-sm text-base w-full py-2 px-4 border-gray-300 bg-white text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+                            [ngClass]="{'border-red-500': f('email')?.errors && f('email')?.touched}"
+                            placeholder="Your email" formControlName="email" />
+                    </div>
+
+                    <div *ngIf="f('email')?.errors && f('email')?.touched">
+                        <span *ngIf="f('email')?.hasError('required')"
+                            class="text-red-500 italic font-light text-sm">Email is required</span>
+                        <span *ngIf="f('email')?.hasError('email')" class="text-red-500 italic font-light text-sm">
+                            Email is invalid
+                        </span>
+                    </div>
+                </div>
+                <div class="flex gap-4 mb-2">
+                    <div class=" relative ">
+                        <input type="password" id="sign-up-password"
+                            class="rounded-lg flex-1 appearance-none border shadow-sm text-base w-full py-2 px-4 border-gray-300 bg-white text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+                            [ngClass]="{'border-red-500': f('password')?.errors && f('password')?.touched}"
+                            placeholder="Your password" formControlName="password" />
+
+                        <div *ngIf="f('password')?.hasError('required') && f('password')?.touched">
+                            <span class="text-red-500 italic font-light text-sm">Password is required</span>
+                        </div>
+                    </div>
+                    <div class=" relative ">
+                        <input type="password" id="sign-up-confirmPassword"
+                            class="rounded-lg flex-1 appearance-none border shadow-sm text-base w-full py-2 px-4 border-gray-300 bg-white text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+                            [ngClass]="{'border-red-500': (f('confirmPassword')?.errors && f('confirmPassword')?.touched) || f('password')?.errors && f('password')?.touched}"
+                            placeholder="Confirm password" formControlName="confirmPassword" />
+
+                        <div
+                            *ngIf="f('confirmPassword')?.errors && (f('password')?.touched || f('confirmPassword')?.touched) || f('password')?.hasError('matching')">
+                            <span *ngIf="f('confirmPassword')?.hasError('required')"
+                                class="text-red-500 italic font-light text-sm">Confirm password is required</span>
+                            <span *ngIf="f('confirmPassword')?.hasError('matching')"
+                                class="text-red-500 italic font-light text-sm">Passwords must match</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex justify-center mt-8 w-full">
+                    <app-button type="submit" [disabled]="formGroup.invalid">
+                        Login
+                    </app-button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
