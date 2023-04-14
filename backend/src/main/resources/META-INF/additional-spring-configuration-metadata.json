@@ -1,0 +1,12 @@
+{"properties": [
+  {
+    "name": "workcode.app.jwtSecret",
+    "type": "java.lang.String",
+    "description": "A description for 'workcode.app.jwtSecret'"
+  },
+  {
+    "name": "workcode.app.jwtExpirationMs",
+    "type": "java.lang.String",
+    "description": "A description for 'workcode.app.jwtExpirationMs'"
+  }
+]}
