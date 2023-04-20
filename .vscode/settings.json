@@ -23,5 +23,6 @@
       "username": "postgres",
       "password": "postgres"
     }
-  ]
+  ],
+  "python.linting.pylintPath": "/home/codespace/.cache/pypoetry/virtualenvs/backend-mG7skb0e-py3.10/bin/pylint"
 }

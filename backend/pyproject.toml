@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "backend"
+version = "0.1.0"
+description = ""
+authors = ["Your Name <you@example.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+flask = "^2.2.3"
+flask-bcrypt = "^1.0.1"
+flask-jwt-extended = "^4.4.4"
+flask-sqlalchemy = "^3.0.3"
+psycopg2 = "^2.9.6"
+pylint = "^2.17.2"
+jsonschema = "^4.17.3"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
