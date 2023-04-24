@@ -27,7 +27,7 @@ def login():
     if data['ok']:
         data = data['data']
         user = User.query.filter_by(email=data['email']).first()
-        
+       
         if user and flask_bcrypt.check_password_hash(user.password, data['password']):
             del user.password
             access_token = create_access_token(identity=data)
@@ -37,8 +37,8 @@ def login():
             return jsonify({'ok': True, 'access_token': access_token, 'refresh_token': refresh_token}), 200
         
         return jsonify({'ok': False, 'message': 'Invalid credentials'}), 401
-    else:
-        return jsonify({'ok': False, 'message': 'Bad request parameters: {}'.format(data['message'])}), 400
+    
+    return jsonify({'ok': False, 'message': 'Bad request parameters: {}'.format(data['message'])}), 400
 
 
 @auth.route('/register', methods=['POST'])
@@ -87,3 +87,10 @@ def user(user_id):
             return jsonify({'ok': True, 'message': 'record updated'}), 200
         
         return jsonify({'ok': False, 'message': 'Bad request parameters!'}), 400
+
+@auth.route('/me', methods=['POST'])
+@jwt_required()
+def me():
+    """method to get current user"""
+    user = get_jwt_identity()
+    return jsonify({'ok': True, 'data': user})

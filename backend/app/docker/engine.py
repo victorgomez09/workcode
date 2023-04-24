@@ -27,17 +27,20 @@ def image_pull(image_name):
             print(json.dumps(line['progress'], indent=3))
 
 
-def create_service(data):
+def create_service(workspace, user):
     """Method to deploy new service inside swarm"""
 
     try:
-        name = data['name'].replace(' ', '_')
-        print('service name', data['name'])
-        client.services.create(image='linuxserver/code-server', command=None, name=name,
-                               labels={'service-name': data['name']}, 
+        name = workspace['name'].replace(' ', '_')
+        service = client.services.create(image='linuxserver/code-server', command=None, name=name,
+                               labels={name: user['email']}, 
+                               mode='global',
                                env=['PUID=1000', 'PGID=1000', 'TZ=Etc/UTC', 'PASSWORD=vitidev'],
-                               endpoint_spec=docker.types.EndpointSpec(ports={1209: 8443}),
-                               networks=['my-network'])
+                               endpoint_spec=docker.types.EndpointSpec(ports={1209: 8443}))
+
+        service.reload()
+
+        return service.attrs
 
     except docker.errors.APIError as error:
         print('Something goes wrong')
