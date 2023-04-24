@@ -22,7 +22,14 @@
       "database": "workcode_users",
       "username": "postgres",
       "password": "postgres"
+    },
+    {
+      "previewLimit": 50,
+      "driver": "SQLite",
+      "name": "workcode",
+      "database": "${workspaceFolder:workcode}/backend/database.db"
     }
   ],
-  "python.linting.pylintPath": "/home/codespace/.cache/pypoetry/virtualenvs/backend-mG7skb0e-py3.10/bin/pylint"
+  "python.linting.pylintPath": "/home/codespace/.cache/pypoetry/virtualenvs/backend-mG7skb0e-py3.10/bin/pylint",
+  "sqltools.useNodeRuntime": true
 }

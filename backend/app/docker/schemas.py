@@ -1,32 +1,30 @@
-"""Auth/User schemas"""
+"""Workspace schemas"""
 from jsonschema import validate
 from jsonschema.exceptions import ValidationError
 from jsonschema.exceptions import SchemaError
 
-user_schema = {
+workspace_schema = {
     "type": "object",
     "properties": {
         "name": {
             "type": "string",
         },
-        "email": {
-            "type": "string",
-            "format": "email"
+        "description": {
+            "type": "string"
         },
-        "password": {
-            "type": "string",
-            "minLength": 5
+        "color": {
+            "type": "string"
         }
     },
-    "required": ["email", "password"],
+    "required": ["name"],
     "additionalProperties": False
 }
 
 
-def validate_user(data):
-    """Validate user with schema"""
+def validate_workspace(data):
+    """Validate workspace with schema"""
     try:
-        validate(data, user_schema)
+        validate(data, workspace_schema)
     except ValidationError as error:
         return {'ok': False, 'message': error}
     except SchemaError as error:

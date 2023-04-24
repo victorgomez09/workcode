@@ -1,4 +1,6 @@
-import os, datetime
+"""Configuration class"""
+import os
+import datetime
 
 DEBUG = False
 ENV = 'development'
@@ -8,6 +10,7 @@ BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 
 # SQLite for this example
 SQLALCHEMY_DATABASE_URI = 'postgresql://postgres:postgres@localhost/workcode'
+SQLALCHEMY_DATABASE_URI ='sqlite:///' + os.path.join(BASE_DIR, 'database.db')
 SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 # Application threads
