@@ -3,31 +3,22 @@ from jsonschema import validate
 from jsonschema.exceptions import ValidationError
 from jsonschema.exceptions import SchemaError
 
-workspace_schema = {
+application_schema = {
     "type": "object",
     "properties": {
-        "name": {
+        "application_url": {
             "type": "string",
-        },
-        "description": {
-            "type": "string"
-        },
-        "port": {
-            "type": "number"
-        },
-        "color": {
-            "type": "string"
         }
     },
-    "required": ["name", "port"],
+    "required": ["application_url"],
     "additionalProperties": False
 }
 
 
-def validate_workspace(data):
-    """Validate workspace with schema"""
+def validate_application(data):
+    """Validate application config with schema"""
     try:
-        validate(data, workspace_schema)
+        validate(data, application_schema)
     except ValidationError as error:
         return {'ok': False, 'message': error}
     except SchemaError as error:

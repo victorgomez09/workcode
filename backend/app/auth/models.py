@@ -26,7 +26,7 @@ class User(Base):
         """Serialize"""
         return {
             "id": self.id,
-            "username": self.name,
+            "name": self.name,
             "email": self.email
         }
 

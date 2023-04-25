@@ -20,10 +20,15 @@ with app.app_context():
     from app.docker.controllers import workspace
     app.register_blueprint(workspace)
 
-    from app.docker.engine import image_pull, init_swarm
-    swarmToken = init_swarm()
+    from app.application.controllers import application
+    app.register_blueprint(application)
+
+    from app.docker.engine import image_pull, init_docker
+    swarmToken = init_docker()
     print(swarmToken)
     image_pull('linuxserver/code-server')
+
+    db.create_all()
 
 
 @app.errorhandler(405)

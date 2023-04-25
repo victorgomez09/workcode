@@ -48,13 +48,12 @@ def create_service(workspace, user):
         return None
 
 
-def get_services_by_label(label, url):
+def get_services_by_label(label):
     """Method to get all services runnung by labels"""
 
     try:
         result = []
         for service in client.services.list(filters={'label': f'service-{label}'}):
-            service.attrs['url'] = f'{url}:{service.attrs["Endpoint"]["Ports"][0]["PublishedPort"]}'
             result.append(service.attrs)
 
         return result
