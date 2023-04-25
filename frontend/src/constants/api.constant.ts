@@ -1,3 +1,3 @@
 export const apiConstants = {
-    API_URL: 'http://localhost:5000'
+    API_URL: 'https://5000-victorgomez09-workcode-s4ts6m9cktk.ws-eu95.gitpod.io'
 }

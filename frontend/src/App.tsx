@@ -1,6 +1,4 @@
-import { Route } from 'react-router-dom'
-
-import './App.css'
+import { Route, Routes } from 'react-router-dom'
 
 import { PublicRoute } from './routes/public.route'
 import { PrivateRoute } from './routes/private.route'
@@ -11,16 +9,16 @@ import Dashboard from './views/dashboard.view'
 function App() {
 
   return (
-    <>
-      <Route element={<PublicRoute/>}>
+    <Routes>
+      <Route element={<PublicRoute />}>
         <Route path='/login' element={<Login />} />
         <Route path='/register' element={<Register />} />
       </Route>
 
       <Route element={<PrivateRoute />}>
-        <Dashboard />
+        <Route path="/app" element={<Dashboard />} />
       </Route>
-    </>
+    </Routes>
   )
 }
 

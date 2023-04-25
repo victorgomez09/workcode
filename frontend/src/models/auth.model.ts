@@ -12,7 +12,7 @@ export interface IRegister {
 }
 
 export interface ILoggedIn {
-    token: string;
+    access_token: string;
     refresh_token: string;
     user: User
 }

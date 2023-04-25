@@ -18,12 +18,13 @@ const useAuthStore = create<AuthState>()(
       user: null,
       token: null,
       login: async (email, password) => {
-        const result = await login({email: email, password: password});
-        set({token: result.token, user: result.user})
+        const result = await login({ email: email, password: password });
+        console.log('result', result)
+        set({ token: result.access_token, user: result.user })
       },
       register: async (data) => {
         const result = await register(data);
-        set({token: result.token, user: result.user})
+        set({ token: result.access_token, user: result.user })
       },
       logout: () => {
         // Logout user code

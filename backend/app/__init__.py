@@ -4,6 +4,7 @@ from flask import jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from flask_jwt_extended import JWTManager
+from flask_cors import CORS
 
 app = Flask(__name__)
 app.config.from_object('config')
@@ -11,6 +12,8 @@ app.config.from_object('config')
 flask_bcrypt = Bcrypt(app)
 jwt = JWTManager(app)
 db = SQLAlchemy(app)
+cors = CORS(app, resources={
+            r"/*": {"origins": "https://3000-victorgomez09-workcode-s4ts6m9cktk.ws-eu95.gitpod.io"}})
 
 with app.app_context():
     from app.auth.controllers import auth
@@ -48,6 +51,7 @@ def internal_error():
     """Method to return a 500 code"""
     db.session.rollback()
     return jsonify({'ok': False, 'message': 'Internal Server Error'}), 500
+
 
 for rule in app.url_map.iter_rules():
     print(rule)
