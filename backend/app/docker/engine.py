@@ -4,7 +4,6 @@ import docker
 
 client = docker.from_env()
 
-
 def init_docker():
     """Method for init application Docker"""
 

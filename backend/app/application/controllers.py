@@ -21,3 +21,13 @@ def create_application():
         return jsonify({'ok': True, 'message': 'User created successfully'}), 200
 
     return jsonify({'ok': False, 'message': f'Bad request parameters: {data["message"]}'}), 400
+
+
+@application.route("/", methods=['GET'])
+@jwt_required()
+def get_application_config():
+    """Method to get the application config"""
+    
+    application_config = Application.query.first().json()
+
+    return jsonify({'ok': True, 'data': application_config}), 200

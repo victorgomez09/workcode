@@ -13,7 +13,7 @@ flask_bcrypt = Bcrypt(app)
 jwt = JWTManager(app)
 db = SQLAlchemy(app)
 cors = CORS(app, resources={
-            r"/*": {"origins": "https://3000-victorgomez09-workcode-s4ts6m9cktk.ws-eu95.gitpod.io"}})
+            r"/*": {"origins": "http://192.168.1.227:3000"}})
 
 with app.app_context():
     from app.auth.controllers import auth
@@ -51,7 +51,3 @@ def internal_error():
     """Method to return a 500 code"""
     db.session.rollback()
     return jsonify({'ok': False, 'message': 'Internal Server Error'}), 500
-
-
-for rule in app.url_map.iter_rules():
-    print(rule)
