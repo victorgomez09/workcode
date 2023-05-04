@@ -1,3 +1,3 @@
 export const apiConstants = {
-    API_URL: 'https://victorgomez09-ominous-chainsaw-vg7x6gjv46536p5p-5000.preview.app.github.dev'
+    API_URL: 'https://5000-victorgomez09-workcode-s4ts6m9cktk.ws-eu96.gitpod.io'
 }

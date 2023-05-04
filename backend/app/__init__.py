@@ -13,7 +13,7 @@ flask_bcrypt = Bcrypt(app)
 jwt = JWTManager(app)
 db = SQLAlchemy(app)
 cors = CORS(app, resources={
-            r"/*": {"origins": "https://victorgomez09-ominous-chainsaw-vg7x6gjv46536p5p-3000.preview.app.github.dev/"}})
+            r"/*": {"origins": "https://3000-victorgomez09-workcode-s4ts6m9cktk.ws-eu96.gitpod.io"}})
 
 with app.app_context():
     from app.auth.controllers import auth

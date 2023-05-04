@@ -4,6 +4,7 @@ import docker
 
 client = docker.from_env()
 
+
 def init_docker():
     """Method for init application Docker"""
 
@@ -32,10 +33,14 @@ def create_service(workspace, user):
     try:
         name = workspace['name'].replace(' ', '_')
         service = client.services.create(image='linuxserver/code-server', command=None, name=name,
-                               labels={f'service-{user["name"]}': name}, 
-                               mode='global',
-                               env=['PUID=1000', 'PGID=1000', 'TZ=Etc/UTC', 'PASSWORD=vitidev'],
-                               endpoint_spec=docker.types.EndpointSpec(ports={workspace['port']: 8443}))
+                                         labels={
+                                             f'service-{user["name"]}': name,
+                                             'service-description': workspace['description']
+                                         },
+                                         mode='global',
+                                         env=['PUID=1000', 'PGID=1000',
+                                              'TZ=Etc/UTC', 'PASSWORD=vitidev'],
+                                         endpoint_spec=docker.types.EndpointSpec(ports={workspace['port']: 8443}))
 
         service.reload()
 
@@ -53,8 +58,12 @@ def get_services_by_label(label, url):
     try:
         result = []
         for service in client.services.list(filters={'label': f'service-{label}'}):
-            service.attrs['url'] = f'{url}:{service.attrs["Endpoint"]["Ports"][0]["PublishedPort"]}'
-            result.append(service.attrs)
+            workspace = {'name': service.attrs['Spec']['Name'],
+                         'url': f'{url}:{service.attrs["Endpoint"]["Ports"][0]["PublishedPort"]}',
+                         'template': service.attrs['Spec']['TaskTemplate']['ContainerSpec']['Image'],
+                         'description': service.attrs['Spec']["Labels"]['service-description'],
+                         'env': service.attrs['Spec']['TaskTemplate']['ContainerSpec']['Env']}
+            result.append(workspace)
 
         return result
     except docker.errors.APIError as error:

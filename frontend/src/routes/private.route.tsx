@@ -9,7 +9,7 @@ export const PrivateRoute = () => {
 
     return (
         <div className="flex flex-col flex-1">
-            <Navbar user={user} />
+            <Navbar />
 
             <Outlet />
         </div>

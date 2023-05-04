@@ -14,7 +14,6 @@ export default function Login() {
             await login(data.email, data.password)
             navigate("/app")
         } catch (e) {
-            //
             console.log(e)
         }
     };

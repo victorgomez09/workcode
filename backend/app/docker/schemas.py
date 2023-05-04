@@ -13,9 +13,12 @@ workspace_schema = {
             "type": "string"
         },
         "port": {
-            "type": "number"
+            "type": "integer"
         },
         "color": {
+            "type": "string"
+        },
+        "template": {
             "type": "string"
         }
     },

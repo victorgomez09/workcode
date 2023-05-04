@@ -1,6 +1,7 @@
 import { create } from 'zustand';
-import { User } from '../models/user.model';
 import { persist } from 'zustand/middleware';
+
+import { User } from '../models/user.model';
 import { login, register } from '../service/auth.service';
 import { IRegister } from '../models/auth.model';
 
@@ -19,7 +20,6 @@ const useAuthStore = create<AuthState>()(
       token: null,
       login: async (email, password) => {
         const result = await login({ email: email, password: password });
-        console.log('result', result)
         set({ token: result.access_token, user: result.user })
       },
       register: async (data) => {
@@ -27,7 +27,7 @@ const useAuthStore = create<AuthState>()(
         set({ token: result.access_token, user: result.user })
       },
       logout: () => {
-        // Logout user code
+        set({ token: null, user: null })
       },
     }),
     {

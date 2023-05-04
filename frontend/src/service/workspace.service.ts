@@ -1,11 +1,8 @@
 import { apiConstants } from "../constants/api.constant"
 import { IResponse } from "../models/response.model"
-import { IWorkspace } from "../models/workspace.model"
-import useAuthStore from "../store/user.store"
+import { ICreateWorkspace, IWorkspace } from "../models/workspace.model"
 
-const token = useAuthStore(state => state.token)
-
-export const getWorkspaces = async (): Promise<IWorkspace[]> => {
+export const getWorkspaces = async (token: string): Promise<IWorkspace[]> => {
     const result = await (await fetch(`${apiConstants.API_URL}/workspaces/list`, {
         method: 'GET',
         headers: {
@@ -13,6 +10,20 @@ export const getWorkspaces = async (): Promise<IWorkspace[]> => {
             "Authorization": `Bearer ${token}`
         }
     })).json() as IResponse<IWorkspace[]>
+
+    return result.data
+}
+
+export const createWorkspace = async (data: ICreateWorkspace, token: string): Promise<IWorkspace> => {
+    console.log('data', data)
+    const result = await (await fetch(`${apiConstants.API_URL}/workspaces/create`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            "Authorization": `Bearer ${token}`
+        },
+        body: JSON.stringify(data)
+    })).json() as IResponse<IWorkspace>
 
     return result.data
 }

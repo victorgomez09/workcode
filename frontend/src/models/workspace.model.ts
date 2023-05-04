@@ -3,5 +3,12 @@ export interface IWorkspace {
     description: string
     color?: string
     url: string
-    image: string
+    template: string
+}
+
+export interface ICreateWorkspace {
+    name: string
+    description: string
+    template: string
+    port: number
 }

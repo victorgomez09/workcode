@@ -9,6 +9,7 @@ from app.application.models import Application
 
 workspace = Blueprint('workspaces', __name__, url_prefix='/workspaces')
 
+
 @workspace.route("/create", methods=['POST'])
 @jwt_required()
 def create_workspace():
@@ -25,14 +26,15 @@ def create_workspace():
     return jsonify({'ok': False, 'message': f'Bad request parameters: {data["message"]}'}), 400
 
 
-@workspace.route("/find")
+@workspace.route("/list")
 @jwt_required()
 def get_workspaces():
     """Route to get all user services"""
 
     application_config = Application.query.first().json()
     user = get_jwt_identity()
-    services = get_services_by_label(user['name'], application_config['application_url'])
+    services = get_services_by_label(
+        user['name'], application_config['application_url'])
     if services is not None:
         return jsonify({'ok': True, 'data': services})
 
